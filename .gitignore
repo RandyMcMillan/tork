@@ -35,7 +35,4 @@ tork-rs-web/target/
 ffi/libtork.so
 ffi/libtork_web.so
 
-
-# Added by cargo
-
-/target
+tork_rs/target/

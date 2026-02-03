@@ -1,6 +1,5 @@
-[package]
-name = "tork-rs"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
+[workspace]
+members = [
+    "tork_rs",
+    "tork_rs_web",
+]
