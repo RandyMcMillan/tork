@@ -30,3 +30,7 @@ config.local.toml
 # Binaries
 tmp/
 config.toml
+tork-rs/target/
+tork-rs-web/target/
+ffi/libtork.so
+ffi/libtork_web.so
