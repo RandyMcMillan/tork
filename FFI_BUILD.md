@@ -186,14 +186,25 @@ CGO_ENABLED=1 go build -buildmode=c-shared -o ffi/libtork.so ./ffi/
 # 3. Build the web shared library (includes core symbols)
 CGO_ENABLED=1 go build -buildmode=c-shared -o ffi/libtork_web.so ./ffi/
 
-# 4. Build and test tork-rs (core types)
-cd tork-rs && cargo test && cd ..
+# 4. Build the Rust workspace (crates and binaries)
+cargo build
 
-# 5. Build and test tork-rs-web (web API types)
-cd tork-rs-web && cargo test && cd ..
+# 5. Run tork-rs binary (macOS users may need DYLD_LIBRARY_PATH)
+#    (Linux users use LD_LIBRARY_PATH, Windows users adjust PATH)
+DYLD_LIBRARY_PATH="$(pwd)/ffi:$DYLD_LIBRARY_PATH" ./target/debug/tork-rs
+
+# 6. Run tork-rs-web binary (macOS users may need DYLD_LIBRARY_PATH)
+DYLD_LIBRARY_PATH="$(pwd)/ffi:$DYLD_LIBRARY_PATH" ./target/debug/tork-rs-web
+
+# 7. Run tests for tork-rs (core types)
+cd tork_rs && cargo test && cd ..
+
+# 8. Run tests for tork-rs-web (web API types)
+cd tork_rs_web && cargo test && cd ..
 ```
 
-On macOS, change `.so` to `.dylib`.  On Windows (MinGW), change to `.dll`.
+On macOS, change `.so` to `.dylib`. On Windows (MinGW), change to `.dll`.
+For running Rust binaries, ensure `DYLD_LIBRARY_PATH` (macOS), `LD_LIBRARY_PATH` (Linux), or `PATH` (Windows) is set to include the `ffi/` directory for the runtime linker to find the Go shared libraries.
 
 Both shared libraries are built from the same `./ffi/` package — the web library
 is a strict superset that contains all core symbols plus the web API symbols.

@@ -9,7 +9,7 @@ license = "MIT"
 libc = "0.2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tork-rs = { path = "../tork-rs" }
+tork_rs = { path = "../tork_rs" }
 
 [build-dependencies]
 bindgen = "0.71"
